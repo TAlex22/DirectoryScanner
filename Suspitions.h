@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 #include <array>
 
 // Данный файл был создан для возможности расширения множества ивестных угроз
@@ -15,11 +15,10 @@ enum class SuspicionType {
     MacOsSuspicious
 };
 
-
 // структура для удобного хранения угроз (тип угрозы; название угрозы; строка, определяющая тип угрозы)
 struct Suspicion {
 
-    constexpr Suspicion(const SuspicionType type, const std::string_view& name, const std::string_view& line) 
+    constexpr Suspicion(const SuspicionType type, std::string_view name, std::string_view line) 
         : type_{type}, name_{name}, suspicious_line_{line} {
     }
 

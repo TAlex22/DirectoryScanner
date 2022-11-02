@@ -1,23 +1,28 @@
 #include "Scanner.h"
+#include "Suspitions.h"
+#include "ScanReport.h"
+
+#include <fstream>
+
+Scanner::Scanner(std::string_view path) 
+    : path_{path} {
+}
 
 void Scanner::runScan() {
-
-    // Начало замера времени выполнения сканирование
+    // Начало замера времени выполнения сканирования
     start_time_ = std::chrono::steady_clock::now();
 
     // Запускаем поиск  “подозрительного” содержимого для каждого файла в директории
-    for (const auto & entry : std::filesystem::directory_iterator(path_)) {
+    for (const auto& entry : std::filesystem::directory_iterator(path_)) {
         runFileScan(entry.path());
     }
 
     // Конец замера времени
     auto end = std::chrono::steady_clock::now();
-    std::chrono::duration<double> diff = end - start_time_;
-    report_.addExecutionTime(diff);
+    report_.addExecutionTime(end - start_time_);
 }
 
 void Scanner::runFileScan(const std::filesystem::path& path) {
-
     std::ifstream fin(path); 
 
     // Если не удалось открыть файл, увеличим счетчик ошибок
